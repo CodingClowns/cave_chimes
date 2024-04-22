@@ -1,0 +1,8 @@
+{
+  "cave_chimes": {
+    "category": "blocks",
+    "sounds": [
+      "cavechimes:cave_chimes"
+    ]
+  }
+}

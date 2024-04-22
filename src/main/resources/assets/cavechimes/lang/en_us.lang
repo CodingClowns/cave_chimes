@@ -1,0 +1,16 @@
+tile.cavechimes:cave_chimes.name=Cave Chimes
+
+item.cavechimes:cave_chimes.name=Cave Chimes
+
+config.cavechimes:can_craft=Can craft
+config.cavechimes:can_creepers_drop=Can Creepers drop
+config.cavechimes:silktouch_required=Silk Touch required
+
+config.cavechimes:generate_chimes=Generate Cave Chimes
+config.cavechimes:height_min=Minimum height
+config.cavechimes:height_max=Maximum height
+config.cavechimes:chime_chance=Generation chance
+
+config.cavechimes:chime_volume=Cave Chimes volume
+
+subtitles.cavechimes:block.cave_chimes=Cave Chimes chime

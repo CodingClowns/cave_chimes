@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "volume=0": { "model": "cavechimes:cave_chimes" },
+    "volume=1": { "model": "cavechimes:cave_chimes" },
+    "volume=2": { "model": "cavechimes:cave_chimes" },
+    "volume=3": { "model": "cavechimes:cave_chimes" },
+    "volume=4": { "model": "cavechimes:cave_chimes" },
+    "volume=5": { "model": "cavechimes:cave_chimes" },
+    "volume=6": { "model": "cavechimes:cave_chimes" },
+    "volume=7": { "model": "cavechimes:cave_chimes" },
+    "volume=8": { "model": "cavechimes:cave_chimes" },
+    "volume=9": { "model": "cavechimes:cave_chimes" },
+    "volume=10": { "model": "cavechimes:cave_chimes" },
+    "volume=11": { "model": "cavechimes:cave_chimes" },
+    "volume=12": { "model": "cavechimes:cave_chimes" },
+    "volume=13": { "model": "cavechimes:cave_chimes" },
+    "volume=14": { "model": "cavechimes:cave_chimes" },
+    "volume=15": { "model": "cavechimes:cave_chimes" }
+  }
+}

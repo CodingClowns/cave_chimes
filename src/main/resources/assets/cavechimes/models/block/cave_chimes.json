@@ -1,0 +1,6 @@
+{
+  "parent" : "block/cross",
+  "textures" : {
+    "cross" : "cavechimes:blocks/cave_chimes_simple"
+  }
+}
