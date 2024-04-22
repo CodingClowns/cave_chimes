@@ -7,7 +7,6 @@ package com.fincode.cavechimes.client.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 
 public class ModelCaveChimes extends ModelBase {
 	public final ModelRenderer body;
@@ -16,10 +15,8 @@ public class ModelCaveChimes extends ModelBase {
 	public final ModelRenderer chime_med_1;
 	public final ModelRenderer chime_small;
 	private final ModelRenderer bb_main;
-	private final ModelRenderer chain_r1;
-	private final ModelRenderer chain_r2;
 
-	public ModelCaveChimes() {
+    public ModelCaveChimes() {
 		textureWidth = 32;
 		textureHeight = 16;
 
@@ -59,15 +56,15 @@ public class ModelCaveChimes extends ModelBase {
 
 		bb_main = new ModelRenderer(this);
 		bb_main.setRotationPoint(0.0F, 24.0F, 0.0F);
-		
 
-		chain_r1 = new ModelRenderer(this);
+
+        ModelRenderer chain_r1 = new ModelRenderer(this);
 		chain_r1.setRotationPoint(0.0F, 0.0F, 0.0F);
 		bb_main.addChild(chain_r1);
 		setRotationAngle(chain_r1, 0.0F, 0.7854F, 0.0F);
 		chain_r1.cubeList.add(new ModelBox(chain_r1, 12, 3, 0.0F, -17.0F, -1.0F, 0, 2, 2, 0.0F, false));
 
-		chain_r2 = new ModelRenderer(this);
+        ModelRenderer chain_r2 = new ModelRenderer(this);
 		chain_r2.setRotationPoint(0.0F, 0.0F, 0.0F);
 		bb_main.addChild(chain_r2);
 		setRotationAngle(chain_r2, 0.0F, -0.7854F, 0.0F);

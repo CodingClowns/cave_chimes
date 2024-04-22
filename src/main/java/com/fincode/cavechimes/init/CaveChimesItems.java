@@ -6,7 +6,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -15,7 +14,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class CaveChimesItems {
     public static Item CAVE_CHIMES = null;
 
-    private static ItemBlock create(IForgeRegistry<Item> itemsRegistry, String name, Block block, ItemBlock itemBlock) {
+    private static ItemBlock create(IForgeRegistry<Item> itemsRegistry, String name, ItemBlock itemBlock) {
         itemBlock.setRegistryName(name);
         itemsRegistry.register(itemBlock);
         return itemBlock;
@@ -23,6 +22,6 @@ public class CaveChimesItems {
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
-        CAVE_CHIMES = create(event.getRegistry(), "cave_chimes", CaveChimesBlocks.CAVE_CHIMES, new ItemBlock(CaveChimesBlocks.CAVE_CHIMES));
+        CAVE_CHIMES = create(event.getRegistry(), "cave_chimes", new ItemBlock(CaveChimesBlocks.CAVE_CHIMES));
     }
 }

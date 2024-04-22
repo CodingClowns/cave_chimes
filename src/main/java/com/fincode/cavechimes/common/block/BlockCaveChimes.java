@@ -13,12 +13,9 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -37,8 +34,6 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class BlockCaveChimes extends Block implements ITileEntityProvider {
-
-    boolean initialized = false;
     public static PropertyInteger VOLUME = PropertyInteger.create("volume", 0, 15);
 
     protected static final AxisAlignedBB CHIMES_AABB = new AxisAlignedBB(0.25, 0.25, 0.25, 0.75, 1.0, 0.75);
@@ -125,32 +120,6 @@ public class BlockCaveChimes extends Block implements ITileEntityProvider {
         return blockState.getBaseState().withProperty(VOLUME, world.isBlockIndirectlyGettingPowered(pos));
     }
 
-    private short getPower(World world, BlockPos pos) {
-        int max = 0;
-        for (EnumFacing d : EnumFacing.values()) {
-            int pow = world.getRedstonePower(pos, d);
-            if (pow > max)
-                max = pow;
-        }
-        int strongPow = world.getStrongPower(pos);
-        if (strongPow > max)
-            max = strongPow;
-        return (short)max;
-    }
-
-    private short getPower(World world, BlockPos pos, IBlockState state) {
-        int max = 0;
-        for (EnumFacing d : EnumFacing.values()) {
-            int pow = world.getRedstonePower(pos, d);
-            if (pow > max)
-                max = pow;
-        }
-        int strongPow = world.getStrongPower(pos);
-        if (strongPow > max)
-            max = strongPow;
-        return (short)max;
-    }
-
     public void update(World world, BlockPos pos, IBlockState state) {
         if (world.isRemote || (!world.isBlockPowered(pos) && state.getValue(VOLUME) == 0)) return;
 
@@ -190,10 +159,10 @@ public class BlockCaveChimes extends Block implements ITileEntityProvider {
         return Config.obtaining.silkTouchRequired;
     }
 
-    private void breakChimes(World world, BlockPos pos, boolean silkTouch) {
+    private void breakChimes(World world, BlockPos pos) {
         //CaveChimesMod.getLogger().info("Allegedly breaking cave chimes.");
         if (Config.obtaining.canBlockDrop) {
-            if (!Config.obtaining.silkTouchRequired || silkTouch) {
+            if (!Config.obtaining.silkTouchRequired) {
                 world.destroyBlock(pos, true);
 
                 return;
@@ -216,8 +185,6 @@ public class BlockCaveChimes extends Block implements ITileEntityProvider {
     public boolean canSilkHarvest(World p_canSilkHarvest_1_, BlockPos p_canSilkHarvest_2_, IBlockState p_canSilkHarvest_3_, EntityPlayer p_canSilkHarvest_4_) {
         return canDrop();
     }
-
-    private void breakChimes(World world, BlockPos pos) { breakChimes(world, pos, false); }
 
     private void updateVolume(World world, BlockPos pos, IBlockState state, short volume) {
         world.setBlockState(pos, state.withProperty(VOLUME, (int)volume));

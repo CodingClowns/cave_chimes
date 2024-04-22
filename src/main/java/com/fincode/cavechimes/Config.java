@@ -1,31 +1,15 @@
 package com.fincode.cavechimes;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.DimensionType;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.config.Config.*;
 import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @net.minecraftforge.common.config.Config(modid="cavechimes", category = "")
 @Mod.EventBusSubscriber(modid="cavechimes")
 public final class Config {
-    @Ignore
-    public static final String CATEGORY_WORLD = "world";
-    @Ignore
-    public static final String CATEGORY_OBTAINING = "obtaining";
-    @Ignore
-    public static final String CATEGORY_CLIENT = "client";
-
     @Name("Worldgen")
     @Comment("Controls options regarding naturally generated Cave Chimes.")
     @LangKey("config.cavechimes.world")

@@ -13,7 +13,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -22,7 +21,6 @@ public class TileEntityCaveChimes extends TileEntity {
     private CaveChimesSound soundLoop;
 
     private boolean isPlaying = false;
-    private boolean isTracked = false;
     private short signal;
 
     public float discSpeedX = 0;
@@ -40,12 +38,10 @@ public class TileEntityCaveChimes extends TileEntity {
 
     private void addListener() {
         listeners.add(this);
-        isTracked = true;
     }
 
     private void removeListener() {
         listeners.remove(this);
-        isTracked = false;
     }
 
     @Override

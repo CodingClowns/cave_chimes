@@ -1,13 +1,10 @@
 package com.fincode.cavechimes.misc;
 
-import com.fincode.cavechimes.CaveChimesMod;
 import com.fincode.cavechimes.Config;
 import com.fincode.cavechimes.init.CaveChimesItems;
 import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;

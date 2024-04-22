@@ -18,7 +18,7 @@ public class CaveChimesBlocks {
 
     public static Block registerBlock(IForgeRegistry<Block> registry, String name, Block block) {
         block.setRegistryName("cavechimes", name);
-        block.setUnlocalizedName(block.getRegistryName().toString());
+        block.setUnlocalizedName("cavechimes:" + name);
         registry.register(block);
         return block;
     }

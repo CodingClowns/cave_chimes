@@ -3,8 +3,6 @@ package com.fincode.cavechimes.client.renderer;
 import com.fincode.cavechimes.Config;
 import com.fincode.cavechimes.common.block.entity.TileEntityCaveChimes;
 import com.fincode.cavechimes.client.model.ModelCaveChimes;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -25,17 +23,6 @@ public class TileEntityCaveChimesRenderer extends TileEntitySpecialRenderer<Tile
         GlStateManager.enableDepth();
         GlStateManager.depthFunc(515);
         GlStateManager.depthMask(true);
-
-        int metaData;
-        if (chimes.hasWorld()) {
-            Block blockType = chimes.getBlockType();
-            metaData = chimes.getBlockMetadata();
-            if (blockType instanceof BlockChest && metaData == 0) {
-                metaData = chimes.getBlockMetadata();
-            }
-        } else {
-            metaData = 0;
-        }
 
         ModelCaveChimes model = this.chimesModel;
         if (p_192841_9_ >= 0) {

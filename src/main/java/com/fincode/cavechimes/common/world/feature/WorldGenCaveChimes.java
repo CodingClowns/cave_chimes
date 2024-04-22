@@ -1,16 +1,15 @@
 package com.fincode.cavechimes.common.world.feature;
 
-import com.fincode.cavechimes.CaveChimesMod;
 import com.fincode.cavechimes.Config;
 import com.fincode.cavechimes.common.block.BlockCaveChimes;
 import com.fincode.cavechimes.init.CaveChimesBlocks;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.gen.feature.WorldGenBigMushroom;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.Random;
@@ -81,7 +80,8 @@ public class WorldGenCaveChimes implements IWorldGenerator {
 
         //CaveChimesMod.getLogger().info(pos);
 
-        if (!xor(contains(Config.worldgen.biomes, world.provider.getBiomeForCoords(pos).getRegistryName().getResourcePath()), Config.worldgen.biomeBlacklist)) return;
+        ResourceLocation biome = world.provider.getBiomeForCoords(pos).getRegistryName();
+        if (biome == null || !xor(contains(Config.worldgen.biomes, biome.getResourcePath()), Config.worldgen.biomeBlacklist)) return;
 
         //CaveChimesMod.getLogger().info("Was it me?");
 

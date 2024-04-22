@@ -1,14 +1,12 @@
 package com.fincode.cavechimes.init;
 
 import com.fincode.cavechimes.CaveChimesMod;
-import com.fincode.cavechimes.Config;
 import com.fincode.cavechimes.common.block.entity.TileEntityCaveChimes;
 import com.fincode.cavechimes.client.model.BakedModelCaveChimes;
 import com.fincode.cavechimes.client.renderer.TileEntityCaveChimesRenderer;
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.*;
-import net.minecraft.init.Biomes;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -54,6 +52,9 @@ public class CaveChimesClient {
 
     private static void registerItemModel(Item item) {
         ModelBakery.registerItemVariants(item, item.getRegistryName());
-        ModelLoader.setCustomMeshDefinition(item, s -> new ModelResourceLocation(item.getRegistryName(), "inventory"));
+        ResourceLocation name = item.getRegistryName();
+        if (name == null)
+            return;
+        ModelLoader.setCustomMeshDefinition(item, s -> new ModelResourceLocation(name, "inventory"));
     }
 }

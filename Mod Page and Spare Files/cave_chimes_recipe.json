@@ -1,0 +1,14 @@
+{
+  "type" : "minecraft:crafting_shaped",
+  "pattern" : [
+    "s",
+    "d",
+    "g"
+  ],
+  "key": {
+    "s" : { "item" : "minecraft:string" },
+    "d" : { "item" : "minecraft:record_13" },
+    "g" : { "item" : "minecraft:gold_block" }
+  },
+  "result" : { "item" : "cavechimes:cave_chimes" }
+}

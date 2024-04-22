@@ -1,6 +1,5 @@
 package com.fincode.cavechimes.client.audio;
 
-import com.fincode.cavechimes.CaveChimesMod;
 import com.fincode.cavechimes.Config;
 import com.fincode.cavechimes.init.CaveChimesSounds;
 import net.minecraft.client.audio.ITickableSound;
