@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = 'beta-1.0'
+version = 'beta-1.1'
 group = 'com.finmcpringles.cavechimes' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'cavechimes'
 
@@ -89,9 +89,9 @@ jar {
             "Specification-Vendor": "finmcpringles",
             "Specification-Version": "1", // We are version 1 of ourselves
             "Implementation-Title": project.name,
-            "Implementation-Version": "beta-1.0",
+            "Implementation-Version": "beta-1.1",
             "Implementation-Vendor" :"finmcpringles",
-            "Implementation-Timestamp": new Date().format("2024-04-21'T'07:09:28Z")
+            "Implementation-Timestamp": new Date().format("2024-04-22'T'17:36:53Z")
         ])
     }
 }

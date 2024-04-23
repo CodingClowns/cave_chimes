@@ -3,22 +3,22 @@ package com.fincode.cavechimes.common.block.entity;
 import com.fincode.cavechimes.CaveChimesMod;
 import com.fincode.cavechimes.Config;
 import com.fincode.cavechimes.common.block.BlockCaveChimes;
-import com.fincode.cavechimes.client.audio.CaveChimesSound;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@Mod.EventBusSubscriber(modid = "cavechimes")
+@Mod.EventBusSubscriber(modid = "cavechimes", value=Side.CLIENT)
 public class TileEntityCaveChimes extends TileEntity {
-    private CaveChimesSound soundLoop;
+    @SideOnly(Side.CLIENT)
+    private com.fincode.cavechimes.client.audio.CaveChimesSound soundLoop;
 
     private boolean isPlaying = false;
     private short signal;
@@ -64,11 +64,12 @@ public class TileEntityCaveChimes extends TileEntity {
             chimeOffsets[o] = rand.nextInt(8) - 7;
         }
 
-        if (!world.isRemote) return;
+        if (!world.isRemote)  {
+            this.signal = world.getBlockState(pos).getValue(BlockCaveChimes.VOLUME).shortValue();
+            return;
+        }
 
-        this.signal = world.getBlockState(pos).getValue(BlockCaveChimes.VOLUME).shortValue();
-
-        this.soundLoop = new CaveChimesSound(pos);
+        this.soundLoop = new com.fincode.cavechimes.client.audio.CaveChimesSound(pos);
 
         soundLoop.setVolume(signal);
         if (listeners.size() < Config.client.priority.limit)
@@ -114,17 +115,20 @@ public class TileEntityCaveChimes extends TileEntity {
         return signal;
     }
 
+    @SideOnly(Side.CLIENT)
     private void setPlayingInternal(boolean value) {
-        if (value && !Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(soundLoop)) {
-            Minecraft.getMinecraft().getSoundHandler().stopSound(soundLoop);
-            Minecraft.getMinecraft().getSoundHandler().playSound(soundLoop);
+        if (value && !net.minecraft.client.Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(soundLoop)) {
+            net.minecraft.client.Minecraft.getMinecraft().getSoundHandler().stopSound(soundLoop);
+            net.minecraft.client.Minecraft.getMinecraft().getSoundHandler().playSound(soundLoop);
         }
         else {
-            Minecraft.getMinecraft().getSoundHandler().stopSound(soundLoop);
+            net.minecraft.client.Minecraft.getMinecraft().getSoundHandler().stopSound(soundLoop);
             soundLoop.stop();
         }
         isPlaying = value;
     }
+
+    @SideOnly(Side.CLIENT)
     private void setPlaying(boolean value) {
         if (value == isPlaying) return;
 
@@ -140,6 +144,7 @@ public class TileEntityCaveChimes extends TileEntity {
         soundLoop.ping(value);
     }
 
+    @SideOnly(Side.CLIENT)
     private static void refresh(EntityPlayer player) {
         listeners.sort((c1, c2) -> (int)Math.signum(player.getDistanceSq(c1.pos) - player.getDistanceSq(c2.pos)));
 
@@ -158,7 +163,7 @@ public class TileEntityCaveChimes extends TileEntity {
                 chime.setPlayingInternal(false);
         }
         for (TileEntityCaveChimes chime : playing) {
-            if (!oldPlaying.contains(chime) || !chime.isPlaying || !Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(chime.soundLoop))
+            if (!oldPlaying.contains(chime) || !chime.isPlaying || !net.minecraft.client.Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(chime.soundLoop))
                 chime.setPlayingInternal(true);
             //CaveChimesMod.getLogger().info("Distance from player: " + player.getDistanceSq(chime.pos));
         }

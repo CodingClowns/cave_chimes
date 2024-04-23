@@ -3,7 +3,7 @@
     "modid": "cavechimes",
     "name": "Cave Chimes",
     "description": "Adds spooky cave chimes to your world. You will know them when you hear them.",
-    "version": "beta-1.0",
+    "version": "beta-1.1",
     "mcversion": "${1.12}",
     "url": "",
     "updateUrl": "",
