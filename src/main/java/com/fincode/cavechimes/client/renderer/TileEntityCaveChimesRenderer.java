@@ -1,14 +1,14 @@
 package com.fincode.cavechimes.client.renderer;
 
 import com.fincode.cavechimes.Config;
-import com.fincode.cavechimes.common.block.entity.TileEntityCaveChimes;
+import com.fincode.cavechimes.common.tileentity.TileEntityCaveChimes;
 import com.fincode.cavechimes.client.model.ModelCaveChimes;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
-public class TileEntityCaveChimesRenderer extends TileEntitySpecialRenderer<TileEntityCaveChimes> {
+public class TileEntityCaveChimesRenderer extends TileEntityRenderer<TileEntityCaveChimes> {
     private static final ResourceLocation TEXTURE_CHIMES = new ResourceLocation("cavechimes", "textures/entity/cave_chimes.png");
     private final ModelCaveChimes chimesModel = new ModelCaveChimes();
 
@@ -19,8 +19,9 @@ public class TileEntityCaveChimesRenderer extends TileEntitySpecialRenderer<Tile
     public TileEntityCaveChimesRenderer() {
     }
 
-    public void render(TileEntityCaveChimes chimes, double posX, double posY, double posZ, float subTick, int p_192841_9_, float p_192841_10_) {
-        GlStateManager.enableDepth();
+    @Override
+    public void render(TileEntityCaveChimes chimes, double posX, double posY, double posZ, float subTick, int p_192841_9_) {
+        GlStateManager.enableDepthTest();
         GlStateManager.depthFunc(515);
         GlStateManager.depthMask(true);
 
@@ -29,8 +30,8 @@ public class TileEntityCaveChimesRenderer extends TileEntitySpecialRenderer<Tile
             this.bindTexture(DESTROY_STAGES[p_192841_9_]);
             GlStateManager.matrixMode(5890);
             GlStateManager.pushMatrix();
-            GlStateManager.scale(4.0F, 4.0F, 1.0F);
-            GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
+            GlStateManager.scalef(4.0F, 4.0F, 1.0F);
+            GlStateManager.translatef(0.0625F, 0.0625F, 0.0625F);
             GlStateManager.matrixMode(5888);
         } else {
             this.bindTexture(TEXTURE_CHIMES);
@@ -39,18 +40,18 @@ public class TileEntityCaveChimesRenderer extends TileEntitySpecialRenderer<Tile
         GlStateManager.pushMatrix();
         GlStateManager.enableRescaleNormal();
         if (p_192841_9_ < 0) {
-            GlStateManager.color(1.0F, 1.0F, 1.0F, p_192841_10_);
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1);
         }
 
-        GlStateManager.translate((float)posX, (float)posY + 1.0F, (float)posZ);
-        GlStateManager.scale(1.0F, -1.0F, -1.0F);
+        GlStateManager.translatef((float)posX, (float)posY + 1.0F, (float)posZ);
+        GlStateManager.scalef(1.0F, -1.0F, -1.0F);
         //GlStateManager.translate(0.5F, 0.5F, 0.5F);
 
-        GlStateManager.translate(0.5F, -0.5F, -0.5F);
+        GlStateManager.translatef(0.5F, -0.5F, -0.5F);
 
-        float speed = (float)Config.client.chimeSwing * SPEED_MULT;
+        float speed = Config.client.chimeSwing.get().floatValue() * SPEED_MULT;
         float swing = ((15 - chimes.getVolume()) / 15f);
-        float time = (getWorld().getTotalWorldTime() + subTick);
+        float time = (getWorld().getGameTime() + subTick);
 
         if (speed != 0) {
             model.body.rotateAngleX = getAnimXBase(chimes, time, swing, speed);
@@ -109,7 +110,7 @@ public class TileEntityCaveChimesRenderer extends TileEntitySpecialRenderer<Tile
         model.renderAll();
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         if (p_192841_9_ >= 0) {
             GlStateManager.matrixMode(5890);
             GlStateManager.popMatrix();

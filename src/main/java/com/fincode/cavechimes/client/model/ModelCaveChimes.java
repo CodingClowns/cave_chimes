@@ -4,9 +4,9 @@
 
 package com.fincode.cavechimes.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBox;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelBox;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 
 public class ModelCaveChimes extends ModelBase {
 	public final ModelRenderer body;
@@ -19,6 +19,7 @@ public class ModelCaveChimes extends ModelBase {
     public ModelCaveChimes() {
 		textureWidth = 32;
 		textureHeight = 16;
+
 
 		body = new ModelRenderer(this);
 		body.setRotationPoint(0.0F, 9.0F, 0.0F);

@@ -1,0 +1,34 @@
+{
+  "block.cavechimes.cave_chimes": "Cave Chimes",
+
+  "item.cavechimes:cave_chimes": "Cave Chimes",
+
+  "config.cavechimes.options.worldgen": "Worldgen options",
+  "config.cavechimes.options.obtaining": "Obtaining options",
+  "config.cavechimes.options.client": "Client options",
+  "config.cavechimes.options.priority": "Priority options",
+
+  "config.cavechimes.obtaining.crafting": "Can craft",
+  "config.cavechimes.obtaining.block_drops": "Can Cave Chimes drop",
+  "config.cavechimes.obtaining.creeper_drops": "Can Creepers drop",
+  "config.cavechimes.obtaining.silk_touch": "Silk Touch required",
+
+  "config.cavechimes.worldgen.enabled": "Generate Cave Chimes",
+  "config.cavechimes.worldgen.height_min": "Minimum height",
+  "config.cavechimes.worldgen.height_max": "Maximum height",
+  "config.cavechimes.worldgen.chance": "Generation chance",
+  "config.cavechimes.worldgen.dimensions": "Dimension list",
+  "config.cavechimes.worldgen.dimensions_blacklist": "Dimension blacklist",
+  "config.cavechimes.worldgen.biomes": "Biome list",
+  "config.cavechimes.worldgen.biomes_blacklist": "Biome blacklist",
+
+  "config.cavechimes.client.volume": "Cave Chimes volume",
+  "config.cavechimes.client.swing": "Swing speed",
+  "config.cavechimes.client.simplified": "Simplified model",
+
+  "config.cavechimes.priority.enabled": "Enabled",
+  "config.cavechimes.priority.limit": "Chime limit",
+  "config.cavechimes.priority.refresh_rate": "Refresh rate",
+
+  "subtitles.cave_chimes": "Cave Chimes chime"
+}

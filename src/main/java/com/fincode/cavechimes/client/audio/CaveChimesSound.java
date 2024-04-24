@@ -2,15 +2,15 @@ package com.fincode.cavechimes.client.audio;
 
 import com.fincode.cavechimes.Config;
 import com.fincode.cavechimes.init.CaveChimesSounds;
+import net.minecraft.client.audio.AbstractSound;
 import net.minecraft.client.audio.ITickableSound;
-import net.minecraft.client.audio.PositionedSound;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
-public class CaveChimesSound extends PositionedSound implements ITickableSound {
+@OnlyIn(Dist.CLIENT)
+public class CaveChimesSound extends AbstractSound implements ITickableSound {
     public static final float BASE_VOLUME = 2;
     private boolean playing = true;
     private short power = 0;
@@ -41,13 +41,13 @@ public class CaveChimesSound extends PositionedSound implements ITickableSound {
     }
 
     private float configure() {
-        return (float)Config.client.chimeVolume;
+        return Config.client.chimeVolume.get().floatValue();
     }
 
     public void setPos(BlockPos pos) {
-        this.xPosF = pos.getX();
-        this.yPosF = pos.getY(); // Embarrassing...
-        this.zPosF = pos.getZ();
+        this.x = pos.getX();
+        this.y = pos.getY(); // Embarrassing...
+        this.z = pos.getZ();
         //CaveChimesMod.getLogger().info("WAHAHA! At " + pos + " " + power + " " + configVolume + " " + volume + "!");
     }
 
@@ -61,7 +61,7 @@ public class CaveChimesSound extends PositionedSound implements ITickableSound {
     }
 
     @Override
-    public void update() {
+    public void tick() {
         if (configVolume == configure()) return;
         configVolume = configure();
         updateVolume();

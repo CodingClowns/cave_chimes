@@ -1,12 +1,15 @@
 package com.fincode.cavechimes.client.model;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.model.BakedQuad;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 
 public class BakedModelCaveChimes implements IBakedModel {
     private final IBakedModel chimes;
@@ -18,8 +21,8 @@ public class BakedModelCaveChimes implements IBakedModel {
     }
 
     @Override
-    public List<BakedQuad> getQuads(@Nullable IBlockState iBlockState, @Nullable EnumFacing enumFacing, long l) {
-        return chimes.getQuads(iBlockState, enumFacing, l);
+    public List<BakedQuad> getQuads(@Nullable IBlockState iBlockState, @Nullable EnumFacing enumFacing, Random random) {
+        return chimes.getQuads(iBlockState, enumFacing, random);
     }
 
     @Override

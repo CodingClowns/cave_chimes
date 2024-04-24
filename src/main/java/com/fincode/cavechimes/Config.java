@@ -1,137 +1,152 @@
 package com.fincode.cavechimes;
 
-import net.minecraft.world.DimensionType;
-import net.minecraftforge.common.config.Config.*;
-import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
+import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
-@net.minecraftforge.common.config.Config(modid="cavechimes", category = "")
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 @Mod.EventBusSubscriber(modid="cavechimes")
 public final class Config {
-    @Name("Worldgen")
-    @Comment("Controls options regarding naturally generated Cave Chimes.")
-    @LangKey("config.cavechimes.options.worldgen")
-    public static WorldgenOptions worldgen = new WorldgenOptions();
+    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+    public static WorldgenOptions worldgen = new WorldgenOptions(BUILDER);
 
-    @Name("Obtaining")
-    @Comment("Controls the the various ways of obtaining Cave Chimes as an item.")
-    @LangKey("config.cavechimes.options.obtaining")
-    public static ObtainingOptions obtaining = new ObtainingOptions();
+    public static ObtainingOptions obtaining = new ObtainingOptions(BUILDER);
 
-    @Name("Client")
-    @Comment("Client-side options.")
-    @LangKey("config.cavechimes.options.client")
-    public static ClientOptions client = new ClientOptions();
+    public static ClientOptions client = new ClientOptions(BUILDER);
+    public static final ForgeConfigSpec spec = BUILDER.build();
 
     public static class WorldgenOptions {
-        @Name("Generate Chimes")
-        @Comment("If false, Cave Chimes will not generate naturally.")
-        @LangKey("config.cavechimes.worldgen.enabled")
-        public boolean generateChimes = true;
-        @Name("Minimum height")
-        @Comment("The minimum y-value at which Cave Chimes can generate.")
-        @LangKey("config.cavechimes.worldgen.height_min")
-        public int minChimeHeight = 16;
-        @Name("Maximum height")
-        @Comment("The maximum y-value at which Cave Chimes can generate.")
-        @LangKey("config.cavechimes.worldgen.height_max")
-        public int maxChimeHeight = 35;
-        @Name("Generation frequency")
-        @Comment("The chance for Cave Chimes to generate (per chunk).")
-        @LangKey("config.cavechimes.worldgen.chance")
-        @RangeDouble(min=0, max=1)
-        public double chimeFrequency = 0.3f;
+        public WorldgenOptions(ForgeConfigSpec.Builder builder) {
+            builder.push("Worldgen");
+            generateChimes = builder
+                    .translation("config.cavechimes.worldgen.enabled")
+                    .comment("If false, Cave Chimes will not generate naturally.")
+                    .define("generateChimes", true);
+            minChimeHeight = builder
+                    .translation("config.cavechimes.worldgen.height_min")
+                    .comment("The minimum y-value at which Cave Chimes can generate.")
+                    .define("minChimeHeight", 16);
+            maxChimeHeight = builder.
+                    translation("config.cavechimes.worldgen.height_max")
+                    .comment("The maximum y-value at which Cave Chimes can generate.")
+                    .define("maxChimeHeight", 35);
+            chimeFrequency = builder
+                    .translation("config.cavechimes.worldgen.chance")
+                    .comment("The chance for Cave Chimes to generate (per chunk).")
+                    .defineInRange("generationChance", 0.01d, 0, 1);
+            ArrayList<String> dim1 = new ArrayList<>();
+            dim1.add("minecraft:overlord");
+            dimensions = builder
+                    .translation("config.cavechimes.worldgen.dimensions")
+                    .comment("A whitelist/blacklist for which dimensions Cave Chimes generate in.")
+                    .define("dimensions", dim1);
+            dimBlacklist = builder
+                    .translation("config.cavechimes.worldgen.dimensions_blacklist")
+                    .comment("If enabled, the Dimension list will function as a blacklist instead of a whitelist.")
+                    .define("dimensionBlacklist", false);
+            biomes = builder
+                    .translation("config.cavechimes.worldgen.biomes")
+                    .comment("A whitelist/blacklist for which biomes Cave Chimes generate in.")
+                    .define("biomes", new ArrayList<>());
+            biomeBlacklist = builder
+                    .translation("config.cavechimes.worldgen.biomes_blacklist")
+                    .comment("If enabled, the Biome list will function as a blacklist instead of a whitelist.")
+                    .define("biomeBlacklist", true);
+            builder.pop();
+        }
 
-        @Name("Dimension list")
-        @Comment("A whitelist/blacklist for which dimensions Cave Chimes generate in.")
-        @LangKey("config.cavechimes.worldgen.dimensions")
-        public int[] dimensions = { DimensionType.OVERWORLD.getId() };
+        public BooleanValue generateChimes;
+        public ForgeConfigSpec.ConfigValue<Integer> minChimeHeight;
+        public ForgeConfigSpec.ConfigValue<Integer> maxChimeHeight;
+        public DoubleValue chimeFrequency;
 
-        @Name("Dimension blacklist")
-        @Comment("If enabled, the Dimension list will function as a blacklist instead of a whitelist.")
-        @LangKey("config.cavechimes.worldgen.dimensions_blacklist")
-        public boolean dimBlacklist = false;
+        public ForgeConfigSpec.ConfigValue<List<String>> dimensions;
+        public BooleanValue dimBlacklist;
 
-        @Name("Biome list")
-        @Comment("A whitelist/blacklist for which biomes Cave Chimes generate in.")
-        @LangKey("config.cavechimes.worldgen.biomes")
-        public String[] biomes = {};
-
-        @Name("Biome blacklist")
-        @Comment("If enabled, the Biome list will function as a blacklist instead of a whitelist.")
-        @LangKey("config.cavechimes.worldgen.biomes_blacklist")
-        public boolean biomeBlacklist = true;
+        public ForgeConfigSpec.ConfigValue<List<String>> biomes;
+        public BooleanValue biomeBlacklist;
     }
 
     public static class ObtainingOptions {
-        @Name("Block drop")
-        @Comment("Toggles Cave Chimes dropping themselves when broken.")
-        @LangKey("config.cavechimes.obtaining.block_drops")
-        public boolean canBlockDrop = true;
-        @Name("Silk touch required")
-        @Comment("If true, Cave Chimes will only drop themselves if mined with Silk Touch.")
-        @LangKey("config.cavechimes.obtaining.silk_touch")
-        public boolean silkTouchRequired = false;
-        @Name("Crafting")
-        @Comment("Toggles the Cave Chimes crafting recipe.")
-        @LangKey("config.cavechimes.obtaining.crafting")
-        public boolean canCraft = true;
-        @Name("Creeper drops")
-        @Comment("Toggles Creepers being able to drop Cave Chimes when killed by a Witch.")
-        @LangKey("config.cavechimes.obtaining.creeper_drops")
-        public boolean canCreepersDrop = true;
+        public ObtainingOptions(ForgeConfigSpec.Builder builder) {
+            builder.push("Obtaining");
+            canBlockDrop = builder
+                    .translation("config.cavechimes.obtaining.block_drops")
+                    .comment("Toggles Cave Chimes dropping themselves when broken.")
+                    .define("blockDrops", true);
+            silkTouchRequired = builder
+                    .translation("config.cavechimes.obtaining.silk_touch")
+                    .comment("If true, Cave Chimes will only drop themselves if mined with Silk Touch.")
+                    .define("silkTouch", false);
+            canCraft = builder
+                    .translation("config.cavechimes.obtaining.crafting")
+                    .comment("Toggles the Cave Chimes crafting recipe.")
+                    .define("crafting", true);
+            canCreepersDrop = builder
+                    .translation("config.cavechimes.obtaining.creeper_drops")
+                    .comment("Toggles Creepers being able to drop Cave Chimes when killed by a Witch.")
+                    .define("creeperDrops", true);
+            builder.pop();
+        }
+        public BooleanValue canBlockDrop;
+        public BooleanValue silkTouchRequired;
+        public BooleanValue canCraft;
+        public BooleanValue canCreepersDrop;
     }
 
     public static class ClientOptions {
-        @Name("Volume modifier")
-        @Comment("A multiplier for Cave Chimes volume.")
-        @LangKey("config.cavechimes.client.volume")
-        @RangeDouble(min=0, max=1.5)
-        public double chimeVolume = 1d;
+        public ClientOptions(ForgeConfigSpec.Builder builder) {
+            builder.push("Client");
+            chimeVolume = builder
+                    .translation("config.cavechimes.client.volume")
+                    .comment("A multiplier for Cave Chimes volume.")
+                    .defineInRange("chimeVolume", 1d, 0d, 1.5d);
+            chimeSwing = builder
+                    .translation("config.cavechimes.client.swing")
+                    .comment("A multiplier for Cave Chimes animation speed.")
+                    .defineInRange("chimeSwing", 1d, 0d, 5d);
+            simplifiedModel = builder
+                    .translation("config.cavechimes.client.simplified")
+                    .comment("Replaces the Cave Chimes' custom model with a simplified cross model that lacks animations.")
+                    .worldRestart()
+                    .define("simplified", false);
+            priority = new PriorityOptions(builder);
+            builder.pop();
+        }
 
-        @Name("Swing speed")
-        @Comment("A multiplier for Cave Chimes animation speed.")
-        @LangKey("config.cavechimes.client.swing")
-        @RangeDouble(min=0, max=5)
-        public double chimeSwing = 1;
+        public DoubleValue chimeVolume;
+        public DoubleValue chimeSwing;
+        public BooleanValue simplifiedModel;
 
-        @Name("Simplified model")
-        @Comment("Replaces the Cave Chimes' custom model with a simplified cross model that lacks animations.")
-        @LangKey("config.cavechimes.client.simplified")
-        @RequiresMcRestart
-        public boolean simplifiedModel = false;
-
-        @Name("Priority options")
-        @Comment("Due to the way Minecraft's sound system works, a limit of 8 Cave Chimes can be producing sound at once. The priority system ensures that the 8 Chimes that are playing are the ones closest to the player.")
-        @LangKey("config.cavechimes.options.priority")
-        public PriorityOptions priority = new PriorityOptions();
+        public PriorityOptions priority;
     }
 
     public static class PriorityOptions {
-        @Name("Priority enabled")
-        @Comment("Be warned, disabling this option may result in Cave Chimes not playing at times, as chimes nowhere near the player get priority over the ones the player may actually be able to hear.")
-        @LangKey("config.cavechimes.priority.enabled")
-        public boolean enabled = true;
+        public PriorityOptions(ForgeConfigSpec.Builder builder) {
+            builder.push("Priority");
+            enabled = builder
+                    .translation("config.cavechimes.priority.enabled")
+                    .comment("Be warned, disabling this option may result in Cave Chimes not playing at times, as chimes nowhere near the player get priority over the ones the player may actually be able to hear.")
+                    .define("priorityEnabled", true);
+            limit = builder
+                    .translation("config.cavechimes.priority.limit")
+                    .comment("The amount of Cave Chimes the system will keep track of. If your render distance is above 16, I'd recommend increasing this.")
+                    .defineInRange("chimesLimit", 300, 16, 1024);
+            refreshInterval = builder
+                    .translation("config.cavechimes.priority.refresh_rate")
+                    .comment("Time between Priority refreshes (in seconds). Values 1-10 recommended for aesthetic, values 5-20 recommended for performance.")
+                    .define("refreshInterval", 3);
+            builder.pop();
+        }
 
-        @Name("Chimes limit")
-        @Comment("The amount of Cave Chimes the system will keep track of. If your render distance is above 16, I'd recommend increasing this.")
-        @LangKey("config.cavechimes.priority.limit")
-        @RangeInt(min=16, max=1024)
-        public int limit = 300;
-
-        @Name("Refresh interval")
-        @Comment("Time between Priority refreshes (in seconds). Values 1-10 recommended for aesthetic, values 5-20 recommended for performance.")
-        @LangKey("config.cavechimes.priority.refresh_rate")
-        public int refreshInterval = 3;
-    }
-
-    @SubscribeEvent
-    public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event)
-    {
-        //CaveChimesMod.getLogger().info("Config changed!");
-        if (event.getModID().equals("cavechimes"))
-            ConfigManager.sync("cavechimes", net.minecraftforge.common.config.Config.Type.INSTANCE);
+        public BooleanValue enabled;
+        public ForgeConfigSpec.ConfigValue<Integer> limit;
+        public ForgeConfigSpec.ConfigValue<Integer> refreshInterval;
     }
 }

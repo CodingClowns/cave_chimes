@@ -1,50 +1,51 @@
 package com.fincode.cavechimes;
 
-import com.fincode.cavechimes.init.CaveChimesBlocks;
-import net.minecraftforge.fml.relauncher.Side;
-import com.fincode.cavechimes.misc.ChimesDropHandler;
-import com.fincode.cavechimes.common.world.feature.WorldGenCaveChimes;
+import com.fincode.cavechimes.init.CaveChimesFeatures;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = CaveChimesMod.MODID, name = CaveChimesMod.NAME, version = CaveChimesMod.VERSION)
+@Mod("cavechimes")
+@Mod.EventBusSubscriber(modid = CaveChimesMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CaveChimesMod
 {
     public static final String MODID = "cavechimes";
     public static final String NAME = "Cave Chimes";
-    public static final String VERSION = "1.1";
+    public static final String VERSION = "1.0";
 
-    private static Logger logger;
-    private static boolean simplifiedModel;
+    private static final Logger logger = LogManager.getLogger();
 
     public static Logger getLogger() {
         return logger;
     }
-    public static boolean isModelSimplified() { return simplifiedModel; }
 
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
-        logger = event.getModLog();
-        simplifiedModel = Config.client.simplifiedModel;
+    public CaveChimesMod() {
+        logger.info("WAEH");
+        MinecraftForge.EVENT_BUS.register(this);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.spec);
 
-        CaveChimesBlocks.registerTileEntities();
-
-        if (event.getSide() == Side.CLIENT) {
-            //logger.info("Registering block renderer! I hope...");
-            com.fincode.cavechimes.init.CaveChimesClient.registerRenderers();
-        }
+        // Register the setup method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupCommon);
+        // Register the doClientStuff method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
     }
 
-    @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        GameRegistry.registerWorldGenerator(new WorldGenCaveChimes(), 50);
+    @SubscribeEvent
+    public void setupClient(final FMLClientSetupEvent event) {
+        CaveChimesMod.getLogger().info("Poopy moopies");
+        com.fincode.cavechimes.init.CaveChimesClient.initClient();
+    }
 
-        ChimesDropHandler.init();
+    @SubscribeEvent
+    public void setupCommon(final FMLCommonSetupEvent event) {
+        CaveChimesFeatures.init();
     }
 }
