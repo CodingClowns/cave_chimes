@@ -2,7 +2,6 @@ package com.fincode.cavechimes;
 
 import com.fincode.cavechimes.init.CaveChimesFeatures;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -30,7 +29,8 @@ public class CaveChimesMod
     public CaveChimesMod() {
         logger.info("WAEH");
         MinecraftForge.EVENT_BUS.register(this);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.spec);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigCommon.spec);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigClient.spec);
 
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupCommon);
@@ -40,7 +40,6 @@ public class CaveChimesMod
 
     @SubscribeEvent
     public void setupClient(final FMLClientSetupEvent event) {
-        CaveChimesMod.getLogger().info("Poopy moopies");
         com.fincode.cavechimes.init.CaveChimesClient.initClient();
     }
 

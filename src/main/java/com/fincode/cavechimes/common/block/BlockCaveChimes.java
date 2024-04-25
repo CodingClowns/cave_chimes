@@ -1,7 +1,7 @@
 package com.fincode.cavechimes.common.block;
 
 import com.fincode.cavechimes.CaveChimesMod;
-import com.fincode.cavechimes.Config;
+import com.fincode.cavechimes.ConfigCommon;
 import com.fincode.cavechimes.common.tileentity.TileEntityCaveChimes;
 import com.fincode.cavechimes.init.CaveChimesBlocks;
 import com.fincode.cavechimes.init.CaveChimesClient;
@@ -106,14 +106,14 @@ public class BlockCaveChimes extends Block implements ITileEntityProvider {
     }
 
     public void update(World world, BlockPos pos, IBlockState state) {
-        if (world.isRemote || (!world.isBlockPowered(pos) && state.get(VOLUME) == 0)) return;
+        if ((!world.isBlockPowered(pos) && state.get(VOLUME) == 0)) return;
 
         //CaveChimesMod.getLogger().warn("POWAAAHHHHH");
         short power = (short)world.getRedstonePowerFromNeighbors(pos);
 
         //CaveChimesMod.getLogger().warn("I am a whiny bitch!!! " + power + " != " + state.getValue(VOLUME).shortValue());
 
-        if (state.get(VOLUME).shortValue() != power) // I will be furious if this is the issue right here.
+        if (state.get(VOLUME).shortValue() != power || world.isRemote) // I will be furious if this is the issue right here.
             updateVolume(world, pos, state, power);
     }
 
@@ -122,6 +122,11 @@ public class BlockCaveChimes extends Block implements ITileEntityProvider {
         super.neighborChanged(state, world, pos, block, posOfNeighbor);
         //CaveChimesMod.getLogger().info("Updating chimes.");
         neighborChangeInternal(world, pos, state, block, posOfNeighbor);
+    }
+
+    @Override
+    public void observedNeighborChange(IBlockState observerState, World world, BlockPos observerPos, Block changedBlock, BlockPos changedBlockPos) {
+        update(world, observerPos, observerState);
     }
 
     private void neighborChangeInternal(World world, BlockPos pos, IBlockState state, Block neighborBlock, BlockPos neighborPos) {
@@ -137,17 +142,17 @@ public class BlockCaveChimes extends Block implements ITileEntityProvider {
 
 
     private boolean canDrop() {
-        return Config.obtaining.canBlockDrop.get();
+        return ConfigCommon.obtaining.canBlockDrop.get();
     }
 
     private boolean requiresSilkTouch() {
-        return Config.obtaining.silkTouchRequired.get();
+        return ConfigCommon.obtaining.silkTouchRequired.get();
     }
 
     private void breakChimes(World world, BlockPos pos) {
         //CaveChimesMod.getLogger().info("Allegedly breaking cave chimes.");
-        if (Config.obtaining.canBlockDrop.get()) {
-            if (!Config.obtaining.silkTouchRequired.get()) {
+        if (ConfigCommon.obtaining.canBlockDrop.get()) {
+            if (!ConfigCommon.obtaining.silkTouchRequired.get()) {
                 world.destroyBlock(pos, true);
 
                 return;

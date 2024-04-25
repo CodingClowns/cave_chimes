@@ -1,7 +1,8 @@
 package com.fincode.cavechimes.init;
 
 import com.fincode.cavechimes.CaveChimesMod;
-import com.fincode.cavechimes.Config;
+import com.fincode.cavechimes.ConfigClient;
+import com.fincode.cavechimes.ConfigCommon;
 import com.fincode.cavechimes.common.tileentity.TileEntityCaveChimes;
 import com.fincode.cavechimes.client.model.BakedModelCaveChimes;
 import com.fincode.cavechimes.client.renderer.TileEntityCaveChimesRenderer;
@@ -24,7 +25,7 @@ public final class CaveChimesClient {
 
     public static void initClient() {
         CaveChimesMod.getLogger().info("Registering Cave Chimes renderer. " + (isModelSimplified ? "Using simplified model." : "Using normal model."));
-        isModelSimplified = Config.client.simplifiedModel.get();
+        isModelSimplified = ConfigClient.client.simplifiedModel.get();
         if (!isModelSimplified)
             ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCaveChimes.class, new TileEntityCaveChimesRenderer());
     }

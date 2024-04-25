@@ -1,6 +1,7 @@
 package com.fincode.cavechimes.client.renderer;
 
-import com.fincode.cavechimes.Config;
+import com.fincode.cavechimes.ConfigClient;
+import com.fincode.cavechimes.ConfigCommon;
 import com.fincode.cavechimes.common.tileentity.TileEntityCaveChimes;
 import com.fincode.cavechimes.client.model.ModelCaveChimes;
 import net.minecraft.client.renderer.GlStateManager;
@@ -49,7 +50,7 @@ public class TileEntityCaveChimesRenderer extends TileEntityRenderer<TileEntityC
 
         GlStateManager.translatef(0.5F, -0.5F, -0.5F);
 
-        float speed = Config.client.chimeSwing.get().floatValue() * SPEED_MULT;
+        float speed = ConfigClient.client.chimeSwing.get().floatValue() * SPEED_MULT;
         float swing = ((15 - chimes.getVolume()) / 15f);
         float time = (getWorld().getGameTime() + subTick);
 

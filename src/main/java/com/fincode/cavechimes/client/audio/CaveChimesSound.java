@@ -1,6 +1,7 @@
 package com.fincode.cavechimes.client.audio;
 
-import com.fincode.cavechimes.Config;
+import com.fincode.cavechimes.ConfigClient;
+import com.fincode.cavechimes.ConfigCommon;
 import com.fincode.cavechimes.init.CaveChimesSounds;
 import net.minecraft.client.audio.AbstractSound;
 import net.minecraft.client.audio.ITickableSound;
@@ -41,7 +42,7 @@ public class CaveChimesSound extends AbstractSound implements ITickableSound {
     }
 
     private float configure() {
-        return Config.client.chimeVolume.get().floatValue();
+        return ConfigClient.client.chimeVolume.get().floatValue();
     }
 
     public void setPos(BlockPos pos) {

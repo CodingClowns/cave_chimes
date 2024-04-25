@@ -1,7 +1,8 @@
 package com.fincode.cavechimes.common.tileentity;
 
 import com.fincode.cavechimes.CaveChimesMod;
-import com.fincode.cavechimes.Config;
+import com.fincode.cavechimes.ConfigClient;
+import com.fincode.cavechimes.ConfigCommon;
 import com.fincode.cavechimes.common.block.BlockCaveChimes;
 import com.fincode.cavechimes.init.CaveChimesBlocks;
 import net.minecraft.entity.player.EntityPlayer;
@@ -75,7 +76,7 @@ public class TileEntityCaveChimes extends TileEntity {
         this.soundLoop = new com.fincode.cavechimes.client.audio.CaveChimesSound(pos);
 
         soundLoop.setVolume(signal);
-        if (listeners.size() < Config.client.priority.limit.get())
+        if (listeners.size() < ConfigClient.client.priority.limit.get())
             addListener();
         else
             CaveChimesMod.getLogger().info("Cave Chimes limit exceeded! (" + listeners.size() + ")");
@@ -108,6 +109,8 @@ public class TileEntityCaveChimes extends TileEntity {
     public void setVolume(short volume) {
         if (signal == volume) return;
         signal = volume;
+
+        CaveChimesMod.getLogger().info("OH NO " + world.isRemote);
 
         if (!world.isRemote) return;
         setPlaying(volume != 15);
@@ -174,9 +177,9 @@ public class TileEntityCaveChimes extends TileEntity {
     public static void onTick(TickEvent.PlayerTickEvent event) {
         if (event.side != LogicalSide.CLIENT) return;
 
-        int refreshInterval = Config.client.priority.refreshInterval.get() * 20;
+        int refreshInterval = ConfigClient.client.priority.refreshInterval.get() * 20;
 
-        if (!Config.client.priority.enabled.get() || refreshInterval == 0) return;
+        if (!ConfigClient.client.priority.enabled.get() || refreshInterval == 0) return;
         ++interval;
 
         if (interval < refreshInterval) return;
